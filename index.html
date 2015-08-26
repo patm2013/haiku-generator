@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<link rel="stylesheet" href="css/normalise.css">
+	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/custom.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<form action="" id="form">
+				<div class="columns twelve">
+					<input type="text" class="line u-full-width" id="l1">
+				</div>
+				<div class="columns twelve">
+					<input type="text" class="line u-full-width" id="l2">
+				</div>
+				<div class="columns twelve">
+					<input type="text" class="line u-full-width" id="l3">
+				</div>
+				<div class="columns twelve">
+					<button id="submit">Submit</button>
+					<button id="clear">Clear</button>
+				</div>
+			</form>
+		</div>
+		
+	<div class="row">
+		<div class="columns twelve">
+			<div class="lineText" id="tl1"></div>
+		</div>
+	</div>
+	
+
+	</div>
+	
+		
+		
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>
+		var lines = $(".line");
+		$("#submit").click(function(e){
+			e.preventDefault();
+			console.log(lines);
+			for (var i = 0; i < lines.length; i++) {
+				var line = lines[i];
+				if($(line).val() !== ''){
+					if(i !== 1){
+						makeHaiku($(line).val(), 5);
+					} else {
+						makeHaiku($(line).val(), 7);
+					}
+				};
+			};
+		});
+
+		function makeHaiku(lineVal, syls){
+			// Send the data using post
+			  var posting = $.post( 'http://localhost:8080/api/test', { line: lineVal, syllables: syls } );
+			 
+			  // Put the results in a div
+			  posting.done(function( data ) {
+			    var str = '<h1>' + data.message + '</h1>';
+			    $("#tl1").append(str);
+			  });
+		}
+
+		$("#clear").click(function(e){
+			e.preventDefault();
+			console.log('clear')
+			$("#tl1").empty();
+		})
+	</script>
+</body>
+</html>

@@ -2,35 +2,8 @@ var nlp = require('nlp_compromise');
 var moby = require('moby');
 var Line = require('./src/line.js');
 var u = require('./src/util.js');
-var o11 = "Dapper Danny Ocean (George Clooney) is a man of action. Less than 24 hours into his parole from a New Jersey penitentiary, the wry, charismatic thief is already rolling out his next plan. Following three rules: Don't hurt anybody, don't steal from anyone who doesn't deserve it, and play the game like you've got nothing to lose. Danny orchestrates the most sophisticated, elaborate casino heist in history."
-var mm = "Years after the collapse of civilization, the tyrannical Immortan Joe enslaves apocalypse survivors inside the desert fortress the Citadel. When the warrior Imperator Furiosa (Charlize Theron) leads the despot's five wives in a daring escape, she forges an alliance with Max Rockatansky (Tom Hardy), a loner and former captive. Fortified in the massive, armored truck the War Rig, they try to outrun the ruthless warlord and his henchmen in a deadly high-speed chase through the Wasteland.";
-var testPara2 = "Taylor Alison Swift (born December 13, 1989) is an American singer-songwriter and actress. Raised in Wyomissing, Pennsylvania, she moved to Nashville, Tennessee, at the age of 14 to pursue a career in country music. She signed with the independent label Big Machine Records and became the youngest songwriter ever hired by the Sony/ATV Music publishing house.";
-var testPara ="Americans, like human beings everywhere, believe many things that are obviously untrue. Their most destructive untruth is that it is very easy for any American to make money. They will not acknowledge how in fact hard money is to come by, and, therefore, those who have no money blame and blame and blame themselves.";
 
-var sentences = nlp.sentences(testPara);
-var randIndex = Math.floor(Math.random()*(sentences.length-2))
-console.log(randIndex)
-sentences = sentences.splice(randIndex,randIndex + 3)
-var lines = sentences.map(function(sentence){
-	return new Line(sentence);
-});
-
-
-for (var i = 0; i < lines.length; i++) {
-	var line = lines[i];
-	var orWords = line.taggedWords(u.tags.nouns.concat(u.tags.verbs.concat(u.tags.adjectives)));
-	console.log(orWords);
-	removeGlue(line);
-	if(i !== 1){
-		reduceSyllables(5,line, u.tags.allTags, orWords);
-	} else {
-		reduceSyllables(7,line, u.tags.allTags, orWords);
-	}
-}
-for (var i = 0; i < lines.length; i++) {
-	var line = lines[i];
-	console.log(line.makeLine())
-}
+var exports = module.exports = {};
 
 function removeGlue(line){
 	line.taggedWords(u.tags.glue.concat(u.tags.value)).map(function(word){
@@ -38,7 +11,7 @@ function removeGlue(line){
 	});
 }
 
-function reduceSyllables(desiredSyllables, line, tags, randWords){
+exports.reduceSyl = function reduceSyllables(desiredSyllables, line, tags, randWords){
 	console.log(line.makeLine());
 	var tagArray = line.taggedWords(tags);
 	//// console.log(tagArray)
@@ -131,6 +104,8 @@ function reduceLine(maxWords, line, tags){
 		// console.log("no further reduction")
 	}
 }
+
+
 //sentences.forEach(function(test){
 	// var ln = new Line(test);
 	// // //// console.log(ln.words);

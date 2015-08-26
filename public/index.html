@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+</head>
+<body>
+	
+	<form action="" id="form">
+		<input type="text" class="line" id="l1">
+		<input type="text" class="line" id="l2">
+		<input type="text" class="line" id="l3">
+		<button id="submit">Submit</button>
+	</form>
+
+	<div class="lineText" id="tl1"></div>
+	<div class="lineText" id="tl2"></div>
+	<div class="lineText" id="tl3"></div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>
+		var lines = $(".line");
+		$("#submit").click(function(e){
+			e.preventDefault();
+			console.log(lines);
+			for (var i = 0; i < lines.length; i++) {
+				var line = lines[i];
+				if($(line).val() !== ''){
+					makeHaiku($(line).val());
+				};
+			};
+		});
+
+		function makeHaiku(lineVal){
+			// Send the data using post
+			  var posting = $.post( 'http://localhost:8080/api/test', { line: lineVal, syllables: 7 } );
+			 
+			  // Put the results in a div
+			  posting.done(function( data ) {
+			    $( "#tl1" ).append( data );
+			  });
+		}
+	</script>
+</body>
+</html>
